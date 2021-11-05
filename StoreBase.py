@@ -264,7 +264,7 @@ class database():
             ## update other parameters if available (when entered 'artikelnummer' and 'kleurcode' are not unique)
             for row in data: ## check if the product item is listed in the database
                 if row['artikelnummer']==newline['artikelnummer'].get() and row['kleurcode']==newline['kleurcode'].get():
-                    for credential in ['benaming','kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal voorraad','QR code']:
+                    for credential in ['benaming','kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters','QR code']:
                         newline[credential].set(row[credential])
                 else: ## keep checking for the product and color code to map the names
                     for item in mapping:
@@ -315,11 +315,11 @@ class database():
             for row in data: ## check if the QR code is known and fill in the other fields
                 if row['QR code']==newline['QR code'].get():
                     btni['state']='normal'  
-                    for credential in ['artikelnummer', 'benaming','kleurcode', 'kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal voorraad','QR code']:
+                    for credential in ['artikelnummer', 'benaming','kleurcode', 'kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters','QR code']:
                         newline[credential].set(row[credential])
                 else: ## reset values for unknown QR code
                     btni['state']='disabled'                      
-                    for credential in ['artikelnummer', 'benaming','kleurcode', 'kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal voorraad']:
+                    for credential in ['artikelnummer', 'benaming','kleurcode', 'kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters']:
                         newline[credential].set("")
                     
 
@@ -369,9 +369,9 @@ class database():
         product={}
         for credential in line:
             product[credential]=line[credential].get()
-        ## update the values of product credentials 'aantal rollen', 'totaal prijs', 'totaal voorraad'
+        ## update the values of product credentials 'aantal rollen', 'totaal prijs', 'totaal meters'
         product['aantal rollen']=str(int(product['aantal rollen'])+val)
-        product['totaal voorraad']=str(int(product['aantal meters'])*int(product['aantal rollen']))
+        product['totaal meters']=str(int(product['aantal meters'])*int(product['aantal rollen']))
         product['totaal prijs']=str(float(product['prijs per meter'])*int(product['aantal rollen']))
         ## show warning if stock inventory is less than one
         if int(product['aantal rollen'])<=0:                
@@ -535,7 +535,7 @@ if __name__=='__main__':
     time = now.strftime("%H:%M:%S")                 ## take only time values
     unique_filename=str(now)                        ## create unique ID for files based on date and time
     ## files headers
-    database_fieldnames=['artikelnummer','benaming','kleurcode','kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal voorraad','QR code']
+    database_fieldnames=['artikelnummer','benaming','kleurcode','kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters','QR code']
     stickers_fieldnames=['artikelnummer', 'kleurcode', 'benaming', 'benaming kleur', 'hoeveelheid per rol', 'datum', 'aantal rollen', 'QR code']
     logfile_fieldnames=['ReportCode', 'Message']
     activity_fieldnames=["date", "time"]
