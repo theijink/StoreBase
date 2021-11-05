@@ -452,14 +452,14 @@ class database():
         mapping=database.acquire_mapping_data()
         if len(mapping)>0:
             for item in mapping:
-                if item['code']==newmap['code']: ## if the code already exists in the list a warning is shown
+                if item['code']==newmap['code']:    ## if the code already exists in the list a warning is shown
                     messagebox.showwarning(title="Code Duplication", message="The code {} is already used by the name {}".format(item['code'], item['naam']))
-                elif item==mapping[-1]: ## latest item and none of them was identical so add the new item to the list
+                elif item==mapping[-1]:             ## latest item and none of them was identical so add the new item to the list
                     file=open(mappingfilename, 'a')
                     writer=csv.DictWriter(file, fieldnames=mapping_fieldnames)
                     writer.writerow(newmap)
                     file.close()
-        else: ## in case the credentials file is empty
+        else:                                       ## in case the credentials file is empty
             file=open(mappingfilename, 'a')
             writer=csv.DictWriter(file, fieldnames=mapping_fieldnames)
             writer.writerow(newmap)
