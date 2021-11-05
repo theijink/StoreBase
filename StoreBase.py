@@ -237,14 +237,14 @@ class database():
             newline[credential]=tk.StringVar()
             labi=tk.Label(popup, text=credential)
             labi.grid(row=i, column=0)
-            if credential=='QR code':
+            if credential in ['QR code', 'totaal prijs', 'totaal meters']:
                 enti=tk.Label(popup, textvariable=newline[credential])
                 enti.grid(row=i, column=1)
             else:
                 enti=tk.Entry(popup, textvariable=newline[credential])
                 enti.grid(row=i, column=1)
             i+=1
-        btn=tk.Button(popup, text="Add", command=lambda:[database.write_to_databasefile(newline), [database.write_to_stickerfile(newline, i+1) for i in range(int(newline['aantal rollen'].get()))], infiniteloop.set(False), popup.destroy()])
+        btn=tk.Button(popup, text="Add", command=lambda:[database.write_to_databasefile(newline), [database.write_to_stickerfile(newline, i+1) for i in range(int(newline['aantal rollen'].get()))], infiniteloop.set(False), database.process_database_change(newline, tk.IntVar(value=0), tk.BooleanVar(value=False)), popup.destroy()])
         btn.grid(row=i, column=3)
         ## set the date
         date=dt.now().strftime('%d/%m/%Y')
@@ -264,7 +264,7 @@ class database():
             ## update other parameters if available (when entered 'artikelnummer' and 'kleurcode' are not unique)
             for row in data: ## check if the product item is listed in the database
                 if row['artikelnummer']==newline['artikelnummer'].get() and row['kleurcode']==newline['kleurcode'].get():
-                    for credential in ['benaming','kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters','QR code']:
+                    for credential in ['benaming','kleur','aantal meters','aantal rollen','aantal op rol']:#,'datum','prijs per meter','totaal prijs','totaal meters','QR code']:
                         newline[credential].set(row[credential])
                 else: ## keep checking for the product and color code to map the names
                     for item in mapping:
@@ -277,7 +277,30 @@ class database():
             #except tk.TclError:
             #    break
 
-        
+
+
+    def write_to_databasefile(vars):                ## write product with stringvars to database
+        newline={}
+        for credential in database_fieldnames:
+            newline[credential]=vars[credential].get()
+
+        try:                                        ## try to just add the line to the database because this requires less writing
+            file=open(databasefilename, 'a')
+            writer=csv.DictWriter(file, fieldnames=database_fieldnames)
+            writer.writerow(newline)
+            file.close()
+        except:                                     ## if appending doesn't work the file needs to be overwritten
+            data = database.acquire_database_content()
+            data.append(newline)
+            file=open(databasefilename, 'w')
+            writer=csv.DictWriter(file, fieldnames=database_fieldnames)
+            writer.writeheader()
+            for row in data:
+                writer.writerow(row)
+            file.close()
+
+
+
     def update_stock_inventory():
         popup=tk.Toplevel()
         popup.title("Update Stock Inventory")
@@ -388,6 +411,7 @@ class database():
                     row[credential]=product[credential]     ## overwrite the existing line with the updated line
             elif row==data[-1]:                             ## if the QR code is not known in the database
                 data.append(product)                        ## add the row to the database
+        database.recalculate()
         ## the complete file needs to be rewritten because of the changes made
         file=open(databasefilename, 'w') 
         writer=csv.DictWriter(file, delimiter=',', fieldnames=database_fieldnames)
@@ -395,6 +419,46 @@ class database():
         for row in data:
             writer.writerow(row)
         file.close()
+
+    def recalculate():
+        ## read database file
+        data=[]
+        file=open(databasefilename, 'r')
+        reader=csv.DictReader(file, delimiter=',')
+        for row in reader:
+            data.append(row)
+        file.close()
+        ## check for rows with matching artikelnummer en kleurcode
+        for product in data:
+            ## check for doubles in the database
+            doubles=[]
+            for check in data:
+                if product['artikelnummer']==check['artikelnummer'] and product['kleurcode']==check['kleurcode']:
+                    doubles.append(check)
+            ## get the latest price per meter:
+            price_per_meter={'datum':'', 'prijs':''}
+            totaal_aantal=0
+            for item in doubles:
+                totaal_aantal+=eval(item['aantal rollen'])
+                print(item['datum'])
+                if item['datum']>=price_per_meter['datum']:
+                    price_per_meter['datum']=item['datum']
+                    price_per_meter['prijs']=item['prijs per meter']
+            ## recalculate totaal aantal and totaal prijs
+            prijs_per_meter=eval(price_per_meter['prijs'])
+            totaal_prijs=totaal_aantal*prijs_per_meter
+            product['prijs per meter']=prijs_per_meter
+            product['totaal meters']=totaal_aantal
+            product['totaal prijs']=totaal_prijs
+        ## write updated products to database
+        file=open(databasefilename, 'w')
+        writer=csv.DictWriter(file, fieldnames=database_fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+        file.close()
+        
+
 
     def acquire_stickerfile_content():
         data=[]
@@ -505,25 +569,6 @@ class database():
                 writer.writerow(row)
             file.close()
 
-    def write_to_databasefile(vars):                ## write product with stringvars to database
-        newline={}
-        for credential in database_fieldnames:
-            newline[credential]=vars[credential].get()
-
-        try:                                        ## try to just add the line to the database because this requires less writing
-            file=open(databasefilename, 'a')
-            writer=csv.DictWriter(file, fieldnames=database_fieldnames)
-            writer.writerow(newline)
-            file.close()
-        except:                                     ## if appending doesn't work the file needs to be overwritten
-            data = database.acquire_database_content()
-            data.append(newline)
-            file=open(databasefilename, 'w')
-            writer=csv.DictWriter(file, fieldnames=database_fieldnames)
-            writer.writeheader()
-            for row in data:
-                writer.writerow(row)
-            file.close()
 
 
 if __name__=='__main__':
