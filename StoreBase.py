@@ -541,7 +541,7 @@ if __name__=='__main__':
     activity_fieldnames=["date", "time"]
     mapping_fieldnames=['code', 'naam']
     ## files names
-    stickerfilename="stickers/"+unique_filename+".csv"
+    stickerfilename="1.csv"#"stickers/"+unique_filename+".csv"
     databasefilename=".bin/database.csv"
     activityfilename=".bin/activity.csv"
     mappingfilename=".bin/credentialsMapping.csv"
