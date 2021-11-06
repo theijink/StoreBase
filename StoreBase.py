@@ -264,7 +264,7 @@ class database():
             ## update other parameters if available (when entered 'artikelnummer' and 'kleurcode' are not unique)
             for row in data: ## check if the product item is listed in the database
                 if row['artikelnummer']==newline['artikelnummer'].get() and row['kleurcode']==newline['kleurcode'].get():
-                    for credential in ['benaming','kleur','aantal meters','aantal rollen','aantal op rol']:#,'datum','prijs per meter','totaal prijs','totaal meters','QR code']:
+                    for credential in ['benaming','kleur','aantal meters','aantal op rol']:#,'datum','prijs per meter','totaal prijs','totaal meters','QR code']:
                         newline[credential].set(row[credential])
                 else: ## keep checking for the product and color code to map the names
                     for item in mapping:
@@ -411,7 +411,6 @@ class database():
                     row[credential]=product[credential]     ## overwrite the existing line with the updated line
             elif row==data[-1]:                             ## if the QR code is not known in the database
                 data.append(product)                        ## add the row to the database
-        database.recalculate()
         ## the complete file needs to be rewritten because of the changes made
         file=open(databasefilename, 'w') 
         writer=csv.DictWriter(file, delimiter=',', fieldnames=database_fieldnames)
@@ -419,6 +418,8 @@ class database():
         for row in data:
             writer.writerow(row)
         file.close()
+        ## recalculate totals 
+        database.recalculate()
 
     def recalculate():
         ## read database file
@@ -440,15 +441,14 @@ class database():
             totaal_aantal=0
             for item in doubles:
                 totaal_aantal+=eval(item['aantal rollen'])
-                print(item['datum'])
                 if item['datum']>=price_per_meter['datum']:
                     price_per_meter['datum']=item['datum']
                     price_per_meter['prijs']=item['prijs per meter']
             ## recalculate totaal aantal and totaal prijs
             prijs_per_meter=eval(price_per_meter['prijs'])
-            totaal_prijs=totaal_aantal*prijs_per_meter
+            totaal_prijs=totaal_aantal*eval(product['aantal meters'])*prijs_per_meter
             product['prijs per meter']=prijs_per_meter
-            product['totaal meters']=totaal_aantal
+            product['totaal meters']=totaal_aantal*eval(product['aantal meters'])
             product['totaal prijs']=totaal_prijs
         ## write updated products to database
         file=open(databasefilename, 'w')
