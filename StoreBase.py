@@ -12,7 +12,7 @@ from datetime import datetime as dt
 import os
 import numpy as np
 import time as timeset
-
+from time import sleep
 
 class mainwindow(tk.Tk):
     def __init__(self):
@@ -331,20 +331,22 @@ class database():
         mapping=database.acquire_mapping_data()
         infiniteloop=tk.BooleanVar(value=True)
         while infiniteloop.get()==True:
-            popup.update()
             ## continuousily get QR code from entry field
             QRcode=newline['QR code'].get()
             ## update other parameters if available (when entered 'artikelnummer' and 'kleurcode' are not unique)
+            i=0
             for row in data: ## check if the QR code is known and fill in the other fields
                 if row['QR code']==newline['QR code'].get():
-                    btni['state']='normal'  
-                    for credential in ['artikelnummer', 'benaming','kleurcode', 'kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters','QR code']:
-                        newline[credential].set(row[credential])
-                else: ## reset values for unknown QR code
-                    btni['state']='disabled'                      
+                    btni['state']='normal'
                     for credential in ['artikelnummer', 'benaming','kleurcode', 'kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters']:
-                        newline[credential].set("")
-                    
+                        newline[credential].set(str(row[credential]))
+                else: ## reset values for unknown QR code
+                    pass
+                    #btni['state']='disabled'                      
+                    #for credential in ['artikelnummer', 'benaming','kleurcode', 'kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters']:
+                    #    newline[credential].set("")
+            popup.update()                
+                  
 
 
 
@@ -445,7 +447,7 @@ class database():
                     price_per_meter['datum']=item['datum']
                     price_per_meter['prijs']=item['prijs per meter']
             ## recalculate totaal aantal and totaal prijs
-            prijs_per_meter=eval(price_per_meter['prijs'])
+            prijs_per_meter=price_per_meter['prijs'] if type(price_per_meter['prijs'])==type(0) else eval(price_per_meter['prijs'])
             totaal_prijs=totaal_aantal*eval(product['aantal meters'])*prijs_per_meter
             product['prijs per meter']=prijs_per_meter
             product['totaal meters']=totaal_aantal*eval(product['aantal meters'])
