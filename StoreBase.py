@@ -4,7 +4,7 @@
 3. By entering 'QR code', the program should reduce the amount of that product with 1.
 4. The user should be able to search through the database and see product stock. Both total (date independent) amount and (date dependent) amounts should be shown.
 '''
-
+from parameters import *
 import tkinter as tk
 from tkinter import messagebox
 import csv
@@ -22,20 +22,7 @@ class mainwindow(tk.Tk):
         self.textvar=tk.StringVar()
         self.textlab=tk.Label(self, textvariable=self.textvar, justify=tk.LEFT)
         self.textlab.grid(row=0, column=0, sticky='w')
-        self.initialize(".bin") ## initialize directory /.bin
-        timeset.sleep(pausetime)
-        self.textvar.set("")
-        self.initialize("stickers") ## initialize directory /stickers
-        timeset.sleep(pausetime)
-        self.textvar.set("")
-        self.initialize("database.csv") ## initialize file databasefilename (/.bin/database.csv)
-        timeset.sleep(pausetime)
-        self.textvar.set("")
-        self.initialize("activity.csv") ## initialize file /.bin/activity.csv
-        timeset.sleep(pausetime)
-        self.textvar.set("")
-        self.initialize("credentialsMapping.csv") ## initialize file /.bin/credentialsMapping.csv
-        timeset.sleep(pausetime)
+        
         self.textvar.set("Welcome to StoreBase")
         ## create buttons but don't pack yet
         self.btn1 = tk.Button(self, text="Add Product Item to Database")             
@@ -49,120 +36,7 @@ class mainwindow(tk.Tk):
 
         now = self.startup()                        ## start up after initialisation (login, buttons, etc.)
 
-        
-    def initialize(self, target):
-        path, dirs, files = next(os.walk('.'))
-        if target=="stickers": ## handling /stickers directory
-            self.textvar.set(self.textvar.get()+'\n'+'# Checking for stickers directory...')
-            self.update()
-            timeset.sleep(pausetime)
-            if "stickers" in dirs: ## stickers dir is found
-                self.textvar.set(self.textvar.get()+'\n'+'# \t...found')
-                self.update()
-                timeset.sleep(pausetime)
-            else: ## stickers dir is found
-                self.textvar.set(self.textvar.get()+'\n'+"# \tdirectory stickers not found")
-                self.update()
-                timeset.sleep(pausetime)
-                self.textvar.set(self.textvar.get()+'\n'+"# \tcreating stickers directory...")
-                self.update()
-                timeset.sleep(pausetime)
-                os.mkdir("stickers")
-                self.textvar.set(self.textvar.get()+'\n'+"# \t\t...done")
-                self.update()
-                timeset.sleep(pausetime)
-        
-        if target==".bin": ## handling /.bin directory
-            self.textvar.set(self.textvar.get()+'\n'+'# Checking for .bin directory...')
-            self.update()
-            timeset.sleep(pausetime)
-            if ".bin" in dirs: ## bin file is found
-                self.textvar.set(self.textvar.get()+'\n'+'# \t...found')
-                self.update()
-                timeset.sleep(pausetime)
-            else: ## bin file is found
-                self.textvar.set(self.textvar.get()+'\n'+"# \tdirectory .bin not found")
-                self.update()
-                timeset.sleep(pausetime)
-                self.textvar.set(self.textvar.get()+'\n'+"# \tcreating .bin directory...")
-                self.update()
-                os.mkdir(".bin")
-                timeset.sleep(pausetime)
-                self.textvar.set(self.textvar.get()+'\n'+"# \t\t...done")
-                self.update()
-                timeset.sleep(pausetime)
-        
-        if target=="database.csv": ## handling database file
-            path, dirs, files = next(os.walk('.bin'))
-            self.textvar.set(self.textvar.get()+'\n'+'# Checking for'+databasefilename)
-            self.update()
-            timeset.sleep(pausetime)
-            if "database.csv" in files: ## database is found
-                self.textvar.set(self.textvar.get()+'\n'+'# \t...found')
-                self.update()
-                timeset.sleep(pausetime)
-            else: ## database file is found
-                self.textvar.set(self.textvar.get()+'\n'+"# \tdirectory database file not found")
-                self.update()
-                timeset.sleep(pausetime)
-                self.textvar.set(self.textvar.get()+'\n'+"# \tcreating database file...")
-                self.update()
-                timeset.sleep(pausetime)
-                file=open(databasefilename, 'w')
-                writer=csv.DictWriter(file, fieldnames=database_fieldnames, delimiter=',')
-                writer.writeheader()
-                file.close()
-                self.textvar.set(self.textvar.get()+'\n'+"# \t\t...created")
-                self.update()
-                timeset.sleep(pausetime)
 
-        if target=="activity.csv": ## handling activity file
-            path, dirs, files = next(os.walk('.bin'))
-            self.textvar.set(self.textvar.get()+'\n'+'# Checking for '+activityfilename)
-            self.update()
-            timeset.sleep(pausetime)
-            if "activity.csv" in files: ## activity log file is found
-                self.textvar.set(self.textvar.get()+'\n'+'# \t...found')
-                self.update()
-                timeset.sleep(pausetime)
-            else: ## activity log file is found
-                self.textvar.set(self.textvar.get()+'\n'+"# \tactivity log file not found")
-                self.update()
-                timeset.sleep(pausetime)
-                self.textvar.set(self.textvar.get()+'\n'+"# \tcreating activity log file...")
-                self.update()
-                timeset.sleep(pausetime)
-                file=open(activityfilename, 'w')
-                writer=csv.DictWriter(file, fieldnames=activity_fieldnames, delimiter=',')
-                writer.writeheader()
-                file.close()
-                self.textvar.set(self.textvar.get()+'\n'+"# \t\t...created")
-                self.update()
-                timeset.sleep(pausetime)
-
-        if target=="credentialsMapping.csv": ## handling credentials mapping file
-            path, dirs, files = next(os.walk('.bin'))
-            self.textvar.set(self.textvar.get()+'\n'+'# Checking for '+mappingfilename)
-            self.update()
-            timeset.sleep(pausetime)
-            if "credentialsMapping.csv" in files: ## credentials mapping file is found
-                self.textvar.set(self.textvar.get()+'\n'+'# \t...found')
-                self.update()
-                timeset.sleep(pausetime)
-            else: ## credentials mapping file is found
-                self.textvar.set(self.textvar.get()+'\n'+"# \tcredentials mapping file not found")
-                self.update()
-                timeset.sleep(pausetime)
-                self.textvar.set(self.textvar.get()+'\n'+"# \tcreating credentials mapping file...")
-                self.update()
-                timeset.sleep(pausetime)
-                file=open(mappingfilename, 'w')
-                writer=csv.DictWriter(file, fieldnames=mapping_fieldnames, delimiter=',')
-                writer.writeheader()
-                file.close()
-                self.textvar.set(self.textvar.get()+'\n'+"# \t\t...created")
-                self.update()
-                timeset.sleep(pausetime)
     
     def startup(self):
         ## get last activity from reader
@@ -183,19 +57,14 @@ class mainwindow(tk.Tk):
         ## add this activity by writer
         activity.append({'date':date, 'time':time})     ## append to activity list
         file=open(activityfilename, 'w')             ## write to file
-        writer=csv.DictWriter(file, fieldnames=activity_fieldnames, delimiter=',')
+        writer=csv.DictWriter(file, fieldnames=activityfileheader, delimiter=',')
         writer.writeheader()
         for row in activity:
             writer.writerow(row)
         file.close()
         ## create stickerfile
         file=open(stickerfilename, 'w')
-        writer=csv.DictWriter(file, fieldnames=stickers_fieldnames, delimiter=',')
-        writer.writeheader()
-        file.close()
-        ## create logfile
-        file=open(logfilename, 'w')
-        writer=csv.DictWriter(file, fieldnames=logfile_fieldnames, delimiter=',')
+        writer=csv.DictWriter(file, fieldnames=stickerfileheader, delimiter=',')
         writer.writeheader()
         file.close()
         ## create button for add_to_database
@@ -233,7 +102,7 @@ class database():
         lab.grid(row=0, column=0, columnspan=2)
         i=1
         newline={}
-        for credential in database_fieldnames:
+        for credential in databasefileheader:
             newline[credential]=tk.StringVar()
             labi=tk.Label(popup, text=credential)
             labi.grid(row=i, column=0)
@@ -281,19 +150,19 @@ class database():
 
     def write_to_databasefile(vars):                ## write product with stringvars to database
         newline={}
-        for credential in database_fieldnames:
+        for credential in databasefileheader:
             newline[credential]=vars[credential].get()
 
         try:                                        ## try to just add the line to the database because this requires less writing
             file=open(databasefilename, 'a')
-            writer=csv.DictWriter(file, fieldnames=database_fieldnames)
+            writer=csv.DictWriter(file, fieldnames=databasefileheader)
             writer.writerow(newline)
             file.close()
         except:                                     ## if appending doesn't work the file needs to be overwritten
             data = database.acquire_database_content()
             data.append(newline)
             file=open(databasefilename, 'w')
-            writer=csv.DictWriter(file, fieldnames=database_fieldnames)
+            writer=csv.DictWriter(file, fieldnames=databasefileheader)
             writer.writeheader()
             for row in data:
                 writer.writerow(row)
@@ -309,7 +178,7 @@ class database():
         i=1
         newline={}
         ## place labels for credential name and value
-        for credential in database_fieldnames:
+        for credential in databasefileheader:
             newline[credential]=tk.StringVar()
             labi=tk.Label(popup, text=credential)
             labi.grid(row=i, column=0)
@@ -415,7 +284,7 @@ class database():
                 data.append(product)                        ## add the row to the database
         ## the complete file needs to be rewritten because of the changes made
         file=open(databasefilename, 'w') 
-        writer=csv.DictWriter(file, delimiter=',', fieldnames=database_fieldnames)
+        writer=csv.DictWriter(file, delimiter=',', fieldnames=databasefileheader)
         writer.writeheader()
         for row in data:
             writer.writerow(row)
@@ -454,7 +323,7 @@ class database():
             product['totaal prijs']=totaal_prijs
         ## write updated products to database
         file=open(databasefilename, 'w')
-        writer=csv.DictWriter(file, fieldnames=database_fieldnames)
+        writer=csv.DictWriter(file, fieldnames=databasefileheader)
         writer.writeheader()
         for row in data:
             writer.writerow(row)
@@ -482,7 +351,7 @@ class database():
 
     def acquire_mapping_data():
         data = []
-        file=open(mappingfilename, 'r')
+        file=open(credentialsfilename, 'r')
         reader=csv.DictReader(file, delimiter=',')
         for row in reader:
             data.append(row)
@@ -521,13 +390,13 @@ class database():
                 if item['code']==newmap['code']:    ## if the code already exists in the list a warning is shown
                     messagebox.showwarning(title="Code Duplication", message="The code {} is already used by the name {}".format(item['code'], item['naam']))
                 elif item==mapping[-1]:             ## latest item and none of them was identical so add the new item to the list
-                    file=open(mappingfilename, 'a')
-                    writer=csv.DictWriter(file, fieldnames=mapping_fieldnames)
+                    file=open(credentialsfilename, 'a')
+                    writer=csv.DictWriter(file, fieldnames=credentialsfileheader)
                     writer.writerow(newmap)
                     file.close()
         else:                                       ## in case the credentials file is empty
-            file=open(mappingfilename, 'a')
-            writer=csv.DictWriter(file, fieldnames=mapping_fieldnames)
+            file=open(credentialsfilename, 'a')
+            writer=csv.DictWriter(file, fieldnames=credentialsfileheader)
             writer.writerow(newmap)
             file.close()
 
@@ -558,14 +427,14 @@ class database():
         ## add the new line to the sticker file
         try:                                        ## try to just add the line to the sticker file because this requires less writing
             file=open(stickerfilename, 'a')
-            writer=csv.DictWriter(file, fieldnames=stickers_fieldnames)
+            writer=csv.DictWriter(file, fieldnames=stickerfileheader)
             writer.writerow(newsticker)
             file.close()
         except:                                     ## if appending doesn't work the file needs to be overwritten
             data = database.acquire_stickerfile_content()
             data.append(newsticker)
             file=open(stickerfilename, 'w')
-            writer=csv.DictWriter(file, fieldnames=stickers_fieldnames)
+            writer=csv.DictWriter(file, fieldnames=stickerfileheader)
             writer.writeheader()
             for row in data:
                 writer.writerow(row)
@@ -576,23 +445,6 @@ class database():
 if __name__=='__main__':
     ## settings
     pausetime=0.01
-    ## parameters
-    now = dt.now()                                  ## get current date and time
-    date = now.strftime("%Y/%m/%d")                 ## take only date values
-    time = now.strftime("%H:%M:%S")                 ## take only time values
-    unique_filename=str(now)                        ## create unique ID for files based on date and time
-    ## files headers
-    database_fieldnames=['artikelnummer','benaming','kleurcode','kleur','aantal meters','aantal rollen','aantal op rol','datum','prijs per meter','totaal prijs','totaal meters','QR code']
-    stickers_fieldnames=['artikelnummer', 'kleurcode', 'benaming', 'benaming kleur', 'hoeveelheid per rol', 'datum', 'aantal rollen', 'QR code']
-    logfile_fieldnames=['ReportCode', 'Message']
-    activity_fieldnames=["date", "time"]
-    mapping_fieldnames=['code', 'naam']
-    ## files names
-    stickerfilename="stickers/"+unique_filename+".csv"
-    databasefilename=".bin/database.csv"
-    activityfilename=".bin/activity.csv"
-    mappingfilename=".bin/credentialsMapping.csv"
-    logfilename=".bin/"+unique_filename+".csv"
     ## main application 
     root=mainwindow()
     root.mainloop()

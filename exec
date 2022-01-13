@@ -1,3 +1,39 @@
 #!/bin/sh
 source .venv/bin/activate
+
+## set parameters
+rm -rf parameters.py
+python -u - >> parameters << EOF
+from datetime import datetime as dt
+now=str(dt.now())
+date=now.split(' ')[0]
+time=now.split(' ')[1].split('.')[0]
+print("## variables")
+print("pausetime=0.01")
+print("date='{}'".format(date))
+print("time='{}'".format(time))
+print("unique_filename='{}'".format(date+'_'+time))
+print('## directories')
+print('bindirectory=".bin"')
+print('stickersdirectory="stickers"')
+print('## files')
+print('activityfilename=bindirectory+"/"+"activity.csv"')
+print('activityfileheader=["date", "time"]')
+print('credentialsfilename=bindirectory+"/"+"credentialsMapping.csv"')
+print('credentialsfileheader=["code", "naam"]')
+print('databasefilename=bindirectory+"/"+"database.csv"')
+print('databasefileheader=["artikelnummer","benaming","kleurcode","kleur","aantal meters","aantal rollen","aantal op rol","datum","prijs per meter","totaal prijs","totaal meters","QR code"]')
+print('stickerfilename=stickersdirectory+"/"+unique_filename')
+print('stickerfileheader=["artikelnummer", "kleurcode", "benaming", "benaming kleur", "hoeveelheid per rol", "datum", "aantal rollen", "QR code"]')
+EOF
+mv parameters parameters.py
+
+## initiate the directory and files
+python3 initiate.py
+
+## run the main application
 python3 StoreBase.py
+
+
+
+
