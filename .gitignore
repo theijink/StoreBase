@@ -2,3 +2,4 @@
 .venv/
 stickers/
 __pycache__/
+test/
