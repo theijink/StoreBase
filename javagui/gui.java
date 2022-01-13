@@ -1,36 +1,31 @@
 import javax.swing.JButton;  
 import javax.swing.JFrame;  
-public class JButtonExample {
-    JButtonExample(){  
-        /* JFrame is a top level container (window)
-         * where we would be adding our button
-         */
+import java.awt.event.ActionEvent;
+
+public class GUI {
+    
+    GUI(){  
+        // create toplevel container
         JFrame frame=new JFrame();  
                           
-        // Creating Button          
-        JButton b=new JButton("Click Me..");
-        /* This method specifies the location and size
-         * of button. In method setBounds(x, y, width, height)
-         * x,y) are cordinates from the top left 
-         * corner and remaining two arguments are the width
-         * and height of the button.
-         */
-        b.setBounds(50,50,90, 50);  
-             
-        //Adding button onto the frame
-        frame.add(b);  
-                  
-        // Setting Frame size. This is the window size
-        frame.setSize(300,200);  
-        
+        // create button          
+        JButton btn1 = new JButton("Add item to Database");
+        btn1.setOnAction((new event)
+            System.out.println("Button clicked");
+        );
+        btn1.setBounds(50,50, 150,50);      // (x,y,w,h) w.r.t. top left
+        frame.add(btn1);                    // add button to frame
+
+
+
+        frame.setSize(720,480);                                 // set framesize
         frame.setLayout(null);  
-        frame.setVisible(true);  
-                  
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-                  
+        frame.setVisible(true);       
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // close window handler
+
     }  
               
      public static void main(String[] args) {  
-            new JButtonExample();  
+            new GUI();  
      }  
 }
