@@ -1,8 +1,8 @@
 ## variables
 pausetime=0.01
 date='2022-01-13'
-time='21:12:23'
-unique_filename='2022-01-13_21:12:23'
+time='21:24:19'
+unique_filename='2022-01-13_21:24:19'
 ## directories
 bindirectory=".bin"
 stickersdirectory="stickers"
