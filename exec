@@ -23,19 +23,19 @@ print('credentialsfilename=bindirectory+"/"+"credentialsMapping.csv"')
 print('credentialsfileheader=["code", "naam"]')
 print('databasefilename=bindirectory+"/"+"database.csv"')
 print('databasefileheader=["artikelnummer","benaming","kleurcode","kleur","aantal meters","aantal rollen","aantal op rol","datum","prijs per meter","totaal prijs","totaal meters","QR code"]')
+print('databaseNotAdjustable=["QR code", "totaal prijs", "totaal meters"]')
 print('stickerfilename=stickersdirectory+"/"+unique_filename')
 print('stickerfileheader=["artikelnummer", "kleurcode", "benaming", "benaming kleur", "hoeveelheid per rol", "datum", "aantal rollen", "QR code"]')
 EOF
-mv parameters parameters.py
+mv parameters .src/parameters.py
 
 ## initiate the directory and files
-python3 initiate.py
+python3 .src/initiate.py
 
 ## run the main application
 #python3 StoreBase.py
 
-java javagui/gui.java
-
+java .src/gui.java
 
 ## deactivate the virtual environment
 deactivate

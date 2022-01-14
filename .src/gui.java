@@ -51,7 +51,10 @@ public class GUI {
         pnl1.add(btn2);
         btn2.addActionListener(new LaunchDBmod());
 
-
+        // create button DBmap
+        JButton btn3 = new JButton("Add code-name mapping");
+        pnl1.add(btn3);
+        btn3.addActionListener(new LaunchDBmap());
 
 
     }
@@ -62,7 +65,7 @@ public class GUI {
             try {
                 //System.out.println("Executing java code")
                 //create process and execute
-                String[] cmd = { "python3", "pygui/gui.py" };
+                String[] cmd = { "python3", ".src/StoreBase.py", "DBadd" };
                 Process p = Runtime.getRuntime().exec(cmd);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -74,13 +77,24 @@ public class GUI {
     static class LaunchDBmod implements ActionListener{
         public void actionPerformed (ActionEvent e){
             try {
-                String[] cmd = { "python3", "pygui/gui.py" };
+                String[] cmd = { "python3", ".src/StoreBase.py", "DBmod" };
                 Process p = Runtime.getRuntime().exec(cmd);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
-
+    
+    // create new class for button action LaunchDBmap
+    static class LaunchDBmap implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            try {
+                String[] cmd = { "python3", ".src/StoreBase.py", "DBmap" };
+                Process p = Runtime.getRuntime().exec(cmd);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
 }
