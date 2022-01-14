@@ -32,8 +32,12 @@ mv parameters parameters.py
 python3 initiate.py
 
 ## run the main application
-python3 StoreBase.py
+#python3 StoreBase.py
+
+java javagui/gui.java
 
 
+## deactivate the virtual environment
+deactivate
 
 
