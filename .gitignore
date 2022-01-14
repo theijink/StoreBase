@@ -3,3 +3,4 @@
 stickers/
 __pycache__/
 test/
+parameters.py
