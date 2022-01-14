@@ -35,27 +35,56 @@ public class GUI {
         frame.add(pnl1);
 
         // create stickers label
-        JLabel lbl1 = new JLabel("Database actions");
-        pnl1.add(lbl1);
-        //lbl1.setBounds(50, 50, 500, 50);
-
-                        
+        JLabel lbl1 = new JLabel("Database actions:");
+        frame.add(lbl1);
+        lbl1.setBounds(50, 50, 250, 50);
+               
         // create button DBadd
         JButton btn1 = new JButton("Add item to Database");
-        pnl1.add(btn1);                    // add button to frame
+        frame.add(btn1);                    // add button to frame
         btn1.addActionListener(new LaunchDBadd());
-        //btn1.setBounds(50,100, 500,50);      // (x,y,w,h) w.r.t. top left
+        btn1.setBounds(50,100, 250,50);      // (x,y,w,h) w.r.t. top left
         
         // create button DBmod
         JButton btn2 = new JButton("Modify item in Database");
-        pnl1.add(btn2);
+        frame.add(btn2);
         btn2.addActionListener(new LaunchDBmod());
+        btn2.setBounds(50,150, 250,50);
 
         // create button DBmap
         JButton btn3 = new JButton("Add code-name mapping");
-        pnl1.add(btn3);
+        frame.add(btn3);
         btn3.addActionListener(new LaunchDBmap());
+        btn3.setBounds(50,200, 250,50);
 
+
+        // create stickers label
+        JLabel lbl2 = new JLabel("Stickers actions:");
+        frame.add(lbl2);
+        lbl2.setBounds(50, 250, 250, 50);
+               
+        // create button DBadd
+        JButton btn4 = new JButton("CCV stickers from .csv file");
+        frame.add(btn4);                    // add button to frame
+        btn4.setEnabled(false);
+        btn4.addActionListener(new LaunchDBadd());
+        btn4.setBounds(50,300, 250,50);      // (x,y,w,h) w.r.t. top left
+        
+        // create button DBmod
+        JButton btn5 = new JButton("BOL stickers from .xml file");
+        frame.add(btn5);
+        btn5.setEnabled(false);
+        btn5.addActionListener(new LaunchDBmod());
+        btn5.setBounds(50,350, 250,50);
+
+        // create button DBmap
+        JButton btn6 = new JButton("PostNL stickers from .csv file");
+        frame.add(btn6);
+        btn6.setEnabled(false);
+        btn6.addActionListener(new LaunchDBmap());
+        btn6.setBounds(50,400, 250,50);
+
+        frame.setLayout(null);
 
     }
     
