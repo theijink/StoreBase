@@ -66,15 +66,15 @@ public class GUI {
         // create button DBadd
         JButton btn4 = new JButton("CCV stickers from .csv file");
         frame.add(btn4);                    // add button to frame
-        btn4.setEnabled(false);
-        btn4.addActionListener(new LaunchDBadd());
+        btn4.setEnabled(true);
+        btn4.addActionListener(new LaunchPostColumns());
         btn4.setBounds(50,300, 250,50);      // (x,y,w,h) w.r.t. top left
         
         // create button DBmod
         JButton btn5 = new JButton("BOL stickers from .xml file");
         frame.add(btn5);
-        btn5.setEnabled(false);
-        btn5.addActionListener(new LaunchDBmod());
+        btn5.setEnabled(true);
+        btn5.addActionListener(new LaunchSelectOrders());
         btn5.setBounds(50,350, 250,50);
 
         // create button DBmap
@@ -119,6 +119,30 @@ public class GUI {
         public void actionPerformed (ActionEvent e){
             try {
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBmap" };
+                Process p = Runtime.getRuntime().exec(cmd);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    // create new class for button action LaunchDBmap
+    static class LaunchPostColumns implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            try {
+                String[] cmd = { "python3", ".src/PostColumns.py" };
+                Process p = Runtime.getRuntime().exec(cmd);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    // create new class for button action LaunchDBmap
+    static class LaunchSelectOrders implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            try {
+                String[] cmd = { "python3", ".src/PostColumns.py" };
                 Process p = Runtime.getRuntime().exec(cmd);
             } catch (Exception ex) {
                 ex.printStackTrace();
