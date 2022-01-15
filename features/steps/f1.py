@@ -8,7 +8,7 @@ def log(file, line):
         file.write('\n')
 
 
-@given('the program is {state}')
+@given(u'the program is {state}')
 def step_impl(context, state):
     context.state=state
     #log('dump', str(context.state))
@@ -20,19 +20,19 @@ def step_impl(context, state):
     else:
         pass
 
-@when('the directory {directory} is examined')
+@when(u'the directory {directory} is examined')
 def step_impl(context, directory):
     context.directory=directory
     context.path, context.dirs, context.files = next(os.walk(directory))
     #log('dump', context.path)
 
 
-@then('the file {filename} should be present')
+@then(u'the file {filename} should be present')
 def step_impl(context, filename):
     #log('dump', str(filename)+','+str(context.files))
     assert filename in context.files
 
-@then('the file {filename} should be available with properties {properties}')
+@then(u'the file {filename} should be available with properties {properties}')
 def step_impl(context, filename, properties):
     import imp
     import csv
