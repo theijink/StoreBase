@@ -4,6 +4,7 @@ Feature: Directory initialisation
     I want to the program to use the specified files and directories
     Such that I know where my files are located
 
+    @implemented
     Scenario Outline: availability of source codes
         Given the program is "not started yet"
         When the directory <DIRECTORY> is examined
@@ -14,7 +15,7 @@ Feature: Directory initialisation
             | .src/     | PostColumns.py    |
             | .src/     | SelectOrders.py   |
 
-
+    @implemented
     Scenario Outline: properties of the standard files
         Given the program is "started"
         When the directory <DIRECTORY> is examined
