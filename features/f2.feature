@@ -9,7 +9,7 @@ Feature: Testing the credential mapping function
         Given the program is "started"
         And the credential mapping module is opened
         When the name <NAME> and code <CODE> combination is entered
-        And the "add to list" function is executed
+        And the "add_credential" function is executed
         Then the name <NAME> and code <CODE> combination should be stored in the file <FILE>
         Examples:
             | NAME  | CODE  | FILE                  |
@@ -27,7 +27,7 @@ Feature: Testing the credential mapping function
         And the credential mapping module is opened
         And the <NAME> and <CODE> combination is stored in the <FILE>
         When the name <NAME> and code <CODE> combination is entered
-        And the "remove from list" function is executed
+        And the "remove_credential" function is executed
         Then the name <NAME> and code <CODE> combination should be removed from the file <FILE>
         Examples:
             | NAME  | CODE  | FILE                  |
