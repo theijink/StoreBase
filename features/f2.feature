@@ -12,8 +12,8 @@ Feature: Testing the credential mapping function
         And the "add to list" function is executed
         Then the name <NAME> and code <CODE> combination should be stored in the file <FILE>
         Examples:
-            | NAME  | CODE  | FILE
-            | test  | 1234  |
+            | NAME  | CODE  | FILE                  |
+            | test  | 1234  | credentialsfilename   |
 
     Scenario Outline: Autofill function at certain interface
         Given the program is started
