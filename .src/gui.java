@@ -5,8 +5,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;  
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Image;
 
 public class GUI {
     public static void main(String[] args) {  
@@ -86,6 +88,13 @@ public class GUI {
 
         frame.setLayout(null);
 
+        // create png image
+        ImageIcon img1 = new ImageIcon(new ImageIcon(".bin/statsgraph.png").getImage().getScaledInstance(270, 270, Image.SCALE_DEFAULT));
+        JLabel lbl3 = new JLabel(img1);
+        frame.add(lbl3);
+        lbl3.setBounds(400, 500, 270, 270);
+
+        
     }
     
     // create new class for button action LaunchDBadd
