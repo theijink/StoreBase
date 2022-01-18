@@ -59,13 +59,42 @@ class DataBase():
 
 
     def add_new_item(self, item):
-        '''item=new item'''
-        ## get_data(self.parameters.databasefilename)
-        ## append item to data
-        ## open and write data to file
-        ## close file
-        ## write to stickerfile
-        pass
+        '''item=new dict item with databasefileheader attributes'''
+        assert [k for k in item.keys()] == self.parameters.databasefileheader
+        ## acquire data
+        data = self.get_data(self.parameters.databasefilename)
+        ## check for duplicate QR
+        duplicates=[]
+        for row in data:
+            if row[self.parameters.databasefileheader[11]]==item[self.parameters.databasefileheader[11]]:
+                duplicates.append(True)
+            else:
+                duplicates.append(False)
+        if True in duplicates:
+            ## error
+            assert False
+        else:
+            ## append new item
+            data.append(item)
+            ## write data to file
+            self.write_file(data, self.parameters.databasefilename, self.parameters.databasefileheader)
+            ## write to stickerfile
+            self.write_stickers(item)
+
+
+    def remove_from_database(self, item):
+        '''item=existing dict item with databasefileheader attributes'''
+        assert [k for k in item.keys()] == self.parameters.databasefileheader
+        ## acquire data
+        data = self.get_data(self.parameters.databasefilename)
+        for row in data:
+            if row==item:
+                data.remove(row)
+            else:
+                pass
+        ## write data to file
+        self.write_file(data, self.parameters.databasefilename, self.parameters.databasefileheader)
+
     
     
     def modify_content(self, item):
