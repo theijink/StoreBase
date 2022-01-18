@@ -27,9 +27,11 @@ print('databaseNotAdjustable=["QR code", "totaal prijs", "totaal meters"]')
 print('stickerfilename=stickersdirectory+"/"+unique_filename')
 print('stickerfileheader=["artikelnummer", "kleurcode", "benaming", "benaming kleur", "hoeveelheid per rol", "datum", "aantal rollen", "QR code"]')
 EOF
+## for now, copy the parameters to StoreBase, future: remove .src directory
 mv parameters .src/parameters.py
+cp .src/parameters.py StoreBase/
 
-## initiate the directory and files
+## initiate the directory and files. future: use StoreBase/initiate.py
 python3 .src/initiate.py
 
 ## run the main application
