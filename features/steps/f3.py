@@ -89,6 +89,10 @@ def step_impl(context, CODE, NAME, COLORCODE, COLOR, LENGTH, AMOUNT, ROLL_QTY, D
     assert True in listed
 
 
+@when(u'the "change_stock_quantity" function is executed with quantity {QTY}')
+def step_impl(context):
+    pass
+
 @then(u'the product with QR code x should be removed from the file databasefilename')
 def step_impl(context):
     pass
