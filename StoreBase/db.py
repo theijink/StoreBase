@@ -1,5 +1,7 @@
-from pkgutil import get_data
-from StoreBase import parameters
+try:
+    from StoreBase import parameters
+except:
+    import parameters
 import csv
 
 class DataBase():
@@ -39,8 +41,6 @@ class DataBase():
         self.write_file(data, self.parameters.credentialsfilename, self.parameters.credentialsfileheader)
 
 
-
-
     def add_new_item(self, item):
         '''item=new dict item with databasefileheader attributes'''
         assert [k for k in item.keys()] == self.parameters.databasefileheader
@@ -57,6 +57,9 @@ class DataBase():
             ## error
             assert False
         else:
+            ## add possibly new credentials
+            self.add_credential(item[self.parameters.databasefileheader[0]], item[self.parameters.databasefileheader[1]])
+            self.add_credential(item[self.parameters.databasefileheader[2]], item[self.parameters.databasefileheader[3]])
             ## append new item
             data.append(item)
             ## write data to file
@@ -78,6 +81,7 @@ class DataBase():
         ## write data to file
         self.write_file(data, self.parameters.databasefilename, self.parameters.databasefileheader)
 
+
     def get_current_stock(self, QRcode):
         '''return the current stock quantity (attribute 5) of product with given QR code (attribute 11)'''
         ## acquire data
@@ -89,7 +93,8 @@ class DataBase():
                 qty=row[self.parameters.databasefileheader[5]]
         ## return stock qty
         return qty
-    
+
+
     def manipulate_item_qty(self, QRcode, QTY):
         '''for a product with given QRcode (attribute 11), change its stock quantity (attribute 5)'''
         ## acquire data
@@ -100,7 +105,8 @@ class DataBase():
                 row[self.parameters.databasefileheader[5]]=eval(row[self.parameters.databasefileheader[5]])+eval(QTY)
         ## write modified dataset to file
         self.write_file(data, self.parameters.databasefilename, self.parameters.databasefileheader)
-    
+
+
     def modify_content(self, item):
         '''item=modified item'''
         ## get_data(self.parameters.databasefilename)
@@ -138,6 +144,7 @@ class DataBase():
             writer.writerow(row)
         ## close file
         file.close()
+
 
     def statsgraph(self):
         import matplotlib.pyplot as plt
