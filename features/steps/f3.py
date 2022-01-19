@@ -102,11 +102,9 @@ def step_impl(context, QTY):
     import csv
     from StoreBase import parameters
     context.QTY=QTY
-    wait()
     ## use StoreBase.db function for item quantitu manipulation
     context.db.manipulate_item_qty(context.QR, context.QTY)
-    wait()
-
+    
 @then(u'the "final stock quantity" should equal the "initial stock quantity" plus {QTY}')
 def step_impl(context, QTY):
     context.finalQTY = context.db.get_current_stock(context.QR)
