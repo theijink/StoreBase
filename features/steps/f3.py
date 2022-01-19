@@ -1,4 +1,8 @@
 from behave import given, when, then
+from time import sleep
+
+def wait():
+    sleep(2)
 
 def log(file, line):
     with open('dump', 'at') as file:
@@ -19,7 +23,8 @@ def step_impl(context):
 @given(u'the product with QR code {QR} is stored in the file {FILE}')
 def step_impl(context, QR, FILE):
     import csv
-    filename=getattr(context.db.parameters, FILE)
+    context.filename=FILE
+    filename=getattr(context.db.parameters, context.filename)
     file=open(filename, 'r')
     reader=csv.DictReader(file, delimiter=',')
     ## check if parameter QR is listed
@@ -34,6 +39,9 @@ def step_impl(context, QR, FILE):
     ## passed if True occurs in list
     assert True in listed
 
+@given(u'the "initial stock quantity" of the product with QR code {QR} is known')
+def step_impl(context, QR):
+    context.initialQTY = context.db.get_current_stock(QR)
 
 @when(u'a product is entered with code {CODE}, name {NAME}, colorcode {COLORCODE}, color {COLOR}, #meters {LENGTH}, #rolls {AMOUNT}, #per_roll {ROLL_QTY}, date {DATE}, price {PRICE}, total price {PRICE_TOT}, total_length {LEN_TOT}, QR code {QR}')
 def step_impl(context, CODE, NAME, COLORCODE, COLOR, LENGTH, AMOUNT, ROLL_QTY, DATE, PRICE, PRICE_TOT, LEN_TOT, QR):
@@ -89,7 +97,26 @@ def step_impl(context, CODE, NAME, COLORCODE, COLOR, LENGTH, AMOUNT, ROLL_QTY, D
     assert True in listed
 
 
+@when(u'the "change_stock_quantity" function is executed with quantity {QTY}')
+def step_impl(context, QTY):
+    import csv
+    from StoreBase import parameters
+    context.QTY=QTY
+    wait()
+    ## use StoreBase.db function for item quantitu manipulation
+    context.db.manipulate_item_qty(context.QR, context.QTY)
+    wait()
+
+@then(u'the "final stock quantity" should equal the "initial stock quantity" plus {QTY}')
+def step_impl(context, QTY):
+    context.finalQTY = context.db.get_current_stock(context.QR)
+    log('DUMP', str([context.finalQTY, context.initialQTY, QTY]))
+    assert eval(context.finalQTY) == eval(context.initialQTY) + eval(QTY)
+
 @then(u'the product with QR code x should be removed from the file databasefilename')
 def step_impl(context):
     pass
+
+
+
 

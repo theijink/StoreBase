@@ -1,3 +1,4 @@
+from pkgutil import get_data
 from StoreBase import parameters
 import csv
 
@@ -38,24 +39,6 @@ class DataBase():
         self.write_file(data, self.parameters.credentialsfilename, self.parameters.credentialsfileheader)
 
 
-    def get_data(self, filename):
-        data=[]
-        file=open(filename, 'r')
-        reader=csv.DictReader(file, delimiter=',')
-        for row in reader:
-            data.append(row)
-        file.close()
-        return data
-
-
-    def write_file(self, data, filename, fieldnames):
-        file=open(filename, 'w')
-        writer=csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in data:
-            writer.writerow(row)
-        ## close file
-        file.close()
 
 
     def add_new_item(self, item):
@@ -95,7 +78,28 @@ class DataBase():
         ## write data to file
         self.write_file(data, self.parameters.databasefilename, self.parameters.databasefileheader)
 
+    def get_current_stock(self, QRcode):
+        '''return the current stock quantity (attribute 5) of product with given QR code (attribute 11)'''
+        ## acquire data
+        data = self.get_data(self.parameters.databasefilename)
+        ## search data for ID (QR)
+        for row in data:
+            if row[self.parameters.databasefileheader[11]]==QRcode:
+                ## store the stock quantity
+                qty=row[self.parameters.databasefileheader[5]]
+        ## return stock qty
+        return qty
     
+    def manipulate_item_qty(self, QRcode, QTY):
+        '''for a product with given QRcode (attribute 11), change its stock quantity (attribute 5)'''
+        ## acquire data
+        data = self.get_data(self.parameters.databasefilename)
+        ## search data for ID (=QR code)
+        for row in data:
+            if row[self.parameters.databasefileheader[11]]==QRcode:
+                row[self.parameters.databasefileheader[5]]=eval(row[self.parameters.databasefileheader[5]])+eval(QTY)
+        ## write modified dataset to file
+        self.write_file(data, self.parameters.databasefilename, self.parameters.databasefileheader)
     
     def modify_content(self, item):
         '''item=modified item'''
@@ -113,6 +117,27 @@ class DataBase():
         ## close file
         pass
 
+
+    def get_data(self, filename):
+        '''read and return content of a given file'''
+        data=[]
+        file=open(filename, 'r')
+        reader=csv.DictReader(file, delimiter=',')
+        for row in reader:
+            data.append(row)
+        file.close()
+        return data
+
+
+    def write_file(self, data, filename, fieldnames):
+        '''write data with given layout to specified file'''
+        file=open(filename, 'w')
+        writer=csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+        ## close file
+        file.close()
 
     def statsgraph(self):
         import matplotlib.pyplot as plt
