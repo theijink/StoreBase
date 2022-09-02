@@ -5,10 +5,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;  
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZonedDateTime;
 import java.awt.Image;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
 
 public class GUI {
     public static void main(String[] args) {  
@@ -94,14 +98,19 @@ public class GUI {
         frame.add(lbl3);
         lbl3.setBounds(400, 500, 270, 270);
 
+        /*// create text log field
+        JTextField textField = new JTextField()
+        textField.addActionListener();
+        */
         
     }
     
     // create new class for button action LaunchDBadd
     static class LaunchDBadd implements ActionListener{
         public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
-                //System.out.println("Executing java code")
+                System.out.println(now + ": Add item to database.");
                 //create process and execute
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBadd" };
                 Process p = Runtime.getRuntime().exec(cmd);
@@ -114,7 +123,9 @@ public class GUI {
     // create new class for button action LaunchDBmod
     static class LaunchDBmod implements ActionListener{
         public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
+                System.out.println(now + ": Modify item in database.");
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBmod" };
                 Process p = Runtime.getRuntime().exec(cmd);
             } catch (Exception ex) {
@@ -126,7 +137,9 @@ public class GUI {
     // create new class for button action LaunchDBmap
     static class LaunchDBmap implements ActionListener{
         public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
+                System.out.println(now + ": Add code-name mapping.");
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBmap" };
                 Process p = Runtime.getRuntime().exec(cmd);
             } catch (Exception ex) {
@@ -138,7 +151,9 @@ public class GUI {
     // create new class for button action LaunchDBmap
     static class LaunchPostColumns implements ActionListener{
         public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
+                System.out.println(now + ": CCV stickers from .csv file.");
                 String[] cmd = { "python3", ".src/PostColumns.py" };
                 Process p = Runtime.getRuntime().exec(cmd);
             } catch (Exception ex) {
@@ -150,7 +165,9 @@ public class GUI {
     // create new class for button action LaunchDBmap
     static class LaunchSelectOrders implements ActionListener{
         public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
+                System.out.println(now + ": BOL stickers from .xml file.");
                 String[] cmd = { "python3", ".src/PostColumns.py" };
                 Process p = Runtime.getRuntime().exec(cmd);
             } catch (Exception ex) {
