@@ -5,3 +5,4 @@ __pycache__/
 test/
 parameters.py
 dump
+.DS_Store
