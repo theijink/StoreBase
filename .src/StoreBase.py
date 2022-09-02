@@ -2,6 +2,7 @@ from parameters import *
 import tkinter as tk
 from tkinter import messagebox
 from datetime import datetime as dt
+from datetime import timezone as tz
 import csv
 import sys
 
@@ -14,7 +15,7 @@ class mainwindow(tk.Tk):
         self.updateloop(self.mode)
     
     def add_widgets(self, mode):
-        if mode=='Dbadd':
+        if mode=='DBadd':
             self.wm_title("Add Item to DataBase")
             self.newline={}
             lab=tk.Label(self, text="Please enter the credentials and press [Add]")
@@ -213,6 +214,7 @@ class mainwindow(tk.Tk):
             writer=csv.DictWriter(file, fieldnames=databasefileheader)
             writer.writerow(newline)
             file.close()
+            self.log_to_suitelogfile('info', 'Updated stock with {} items for product {}'.format(newline['aantal rollen'], newline['QR code']), dt.now(tz.utc))
         ## if appending doesn't work the file needs to be overwritten
         except:
             data = self.acquire_database_content()
@@ -223,6 +225,8 @@ class mainwindow(tk.Tk):
             for row in data:
                 writer.writerow(row)
             file.close()
+            self.log_to_suitelogfile('info', 'Updated stock with {} items for product {}.'.format(newline['aantal rollen'], newline['QR code']), dt.now(tz.utc))
+            self.log_to_suitelogfile('warning', 'Unable to append to {} so file is re-written.'.format(databasefilename), dt.now(tz.utc))
 
 
     def write_to_stickerfile(self, product, i):
@@ -361,6 +365,18 @@ class mainwindow(tk.Tk):
         writer.writeheader()
         for row in data:
             writer.writerow(row)
+        file.close()
+
+    def log_to_suitelogfile(self, level, message, time=''):
+        ## apply generic settings
+        levels={'info':'[INFO]   ', 'debug':'[DEBUG]  ', 'warning':'[WARNING]', 'error':'[ERROR]  '}
+        level=levels[level] if level in levels.keys() else '[UNKNOWN]'
+        now = time if not time=='' else dt.now(tz.utc)
+        ## write to file
+        hdr=suitelogfileheader
+        file=open(suitelogfilename, 'a')
+        writer=csv.DictWriter(file, fieldnames=hdr)
+        writer.writerow({hdr[0]:level, hdr[1]:now, hdr[2]:message})
         file.close()
 
 

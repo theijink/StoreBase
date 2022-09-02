@@ -131,7 +131,7 @@ public class GUI {
     
         frame.setLayout(null);    
 
-        // start virtual environment
+        /*// start virtual environment -> SKIP ("source" does not work for java)
         ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
         try {
             System.out.println(now + ": starting virtual environment.");
@@ -140,7 +140,7 @@ public class GUI {
             Process p = Runtime.getRuntime().exec(cmd);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
+        }*/
         
     }
 

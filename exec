@@ -26,6 +26,10 @@ print('databasefileheader=["artikelnummer","benaming","kleurcode","kleur","aanta
 print('databaseNotAdjustable=["QR code", "totaal prijs", "totaal meters"]')
 print('stickerfilename=stickersdirectory+"/"+unique_filename')
 print('stickerfileheader=["artikelnummer", "kleurcode", "benaming", "benaming kleur", "hoeveelheid per rol", "datum", "aantal rollen", "QR code"]')
+print('suitelogfilename=bindirectory+"/"+"suite.log"')
+print('suitelogfileheader=["level", "datetime", "message"]')
+print('## settings')
+print('usePrefilledEntries=True ## for test purposes. If True, entry fields will be pre-filled with generated data')
 EOF
 ## for now, copy the parameters to StoreBase, future: remove .src directory
 mv parameters .src/parameters.py
