@@ -275,6 +275,7 @@ class mainwindow(tk.Tk):
             writer=csv.DictWriter(file, fieldnames=stickerfileheader)
             writer.writerow(newsticker)
             file.close()
+            self.log_to_suitelogfile('info', 'Wrote {} stickers to file for product {}'.format(newsticker['aantal rollen'], newsticker['QR code']), dt.now(tz.utc))
         except:                                     ## if appending doesn't work the file needs to be overwritten
             data = self.acquire_stickerfile_content()
             data.append(newsticker)
@@ -284,6 +285,8 @@ class mainwindow(tk.Tk):
             for row in data:
                 writer.writerow(row)
             file.close()
+            self.log_to_suitelogfile('info', 'Wrote {} stickers to file for product {}'.format(newsticker['aantal rollen'], newsticker['QR code']), dt.now(tz.utc))
+            self.log_to_suitelogfile('warning', 'Unable to append to {} so file is re-written.'.format(stickerfilename), dt.now(tz.utc))
     
     def add_credential_to_file(self, code, name, popup=True):
         newmap={
@@ -297,17 +300,21 @@ class mainwindow(tk.Tk):
             for item in mapping:
                 if item['code']==newmap['code']:    ## if the code already exists in the list a warning is shown
                     if popup==True:
-                        messagebox.showwarning(title="Code Duplication", message="The code {} is already used by the name {}".format(item['code'], item['naam']))
+                        messagebox.showwarning(title="Code Duplication", message="The code {} is already used by the name {}".format(newmap['code'], newmap['naam']))
+                        self.log_to_suitelogfile('warning', 'Failed to add code {} to the list because it was already taken.'.format(newmap['code']), dt.now(tz.utc))
                 elif item==mapping[-1]:             ## latest item and none of them was identical so add the new item to the list
                     file=open(credentialsfilename, 'a')
                     writer=csv.DictWriter(file, fieldnames=credentialsfileheader)
                     writer.writerow(newmap)
                     file.close()
+                    self.log_to_suitelogfile('info', 'Added code {} with description {} to the list.'.format(newmap['code'], newmap['naam']), dt.now(tz.utc))
         else:                                       ## in case the credentials file is empty
             file=open(credentialsfilename, 'a')
             writer=csv.DictWriter(file, fieldnames=credentialsfileheader)
             writer.writerow(newmap)
             file.close()
+            self.log_to_suitelogfile('info', 'File {} was empty.'.format(credentialsfilename), dt.now(tz.utc))
+            self.log_to_suitelogfile('info', 'Added code {} with description {} to the list.'.format(newmap['code'], newmap['naam']), dt.now(tz.utc))
 
     def process_database_change(self, line, change_value, check_print_stickers):
         ## obtain values from popupup window where this is entered
