@@ -37,13 +37,6 @@ if not databasefilename.split('/')[-1] in f:
     file.close()    
 else:
     pass
-if not suitelogfilename.split('/')[-1] in f:
-    file=open(suitelogfilename, 'w')
-    writer=csv.DictWriter(file, fieldnames=suitelogfileheader, delimiter=',')
-    writer.writeheader()
-    file.close()    
-else:
-    pass
 
 p,d,f = next(os.walk(stickersdirectory))
 ## fix stickes directory files
