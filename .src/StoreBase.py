@@ -1,3 +1,4 @@
+from time import sleep
 from parameters import *
 import tkinter as tk
 from tkinter import messagebox
@@ -34,6 +35,12 @@ class mainwindow(tk.Tk):
                 i+=1
             btn=tk.Button(self, text="Add", command=lambda:[self.add_newline()])
             btn.grid(row=i, column=3)
+            ## autofill for test purposes
+            if usePrefilledEntries==True:
+                for credential in self.newline:
+                    print(self.newline[credential].get())
+                    if self.newline[credential].get()=='' and not credential in databaseNotAdjustable:
+                        self.newline[credential].set(str(prefill(credential)))
         elif mode=='DBmod':
             self.wm_title("Change Item in DataBase")
             self.newline={}
@@ -56,7 +63,11 @@ class mainwindow(tk.Tk):
                     enti=tk.Label(self, textvariable=self.newline[credential])
                     enti.grid(row=i, column=1)
                 i+=1
-
+            ## autofill for test purposes
+            if usePrefilledEntries==False:
+                for credential in self.newline:
+                    if self.newline[credential].get()=='' and not credential in databaseNotAdjustable:
+                        self.newline[credential].set(prefill(credential))
         elif mode=='DBmap':
             self.wm_title("Add code-name mapping")
             self.mapping={}    
@@ -70,6 +81,11 @@ class mainwindow(tk.Tk):
                 i+=1
             btn=tk.Button(self, text="Add to File", command=lambda:[self.add_credential()])
             btn.grid(row=i, column=2)
+            ## autofill for test purposes
+            if usePrefilledEntries==True:
+                for credential in self.mapping:
+                    if self.mapping[credential].get()=='' and not credential in databaseNotAdjustable:
+                        self.mapping[credential].set(prefill(credential))
         else:
             self.destroy()
 

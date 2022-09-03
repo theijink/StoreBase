@@ -161,10 +161,10 @@ public class GUI {
         public void actionPerformed (ActionEvent e){
             ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
-                System.out.println(now + ": Add item to database.");
                 //create process and execute
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBadd" };
                 Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": Add item to database.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -176,9 +176,9 @@ public class GUI {
         public void actionPerformed (ActionEvent e){
             ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
-                System.out.println(now + ": Modify item in database.");
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBmod" };
                 Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": Modify item in database.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -190,9 +190,9 @@ public class GUI {
         public void actionPerformed (ActionEvent e){
             ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
-                System.out.println(now + ": Add code-name mapping.");
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBmap" };
                 Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": Add code-name mapping.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -204,9 +204,9 @@ public class GUI {
         public void actionPerformed (ActionEvent e){
             ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
-                System.out.println(now + ": CCV stickers from .csv file.");
                 String[] cmd = { "python3", ".src/PostColumns.py" };
                 Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": CCV stickers from .csv file.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -218,9 +218,9 @@ public class GUI {
         public void actionPerformed (ActionEvent e){
             ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
-                System.out.println(now + ": BOL stickers from .xml file.");
                 String[] cmd = { "python3", ".src/PostColumns.py" };
                 Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": BOL stickers from .xml file.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
