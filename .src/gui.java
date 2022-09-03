@@ -42,6 +42,9 @@ public class GUI {
         //     |btn PostNL stickers from .csv file|
         ///////////////////////////////////////////
 
+        // variables
+        String suiteLogFile = new String(".bin/suite.log");
+
         // create panel
         JPanel pnl1 = new JPanel();
         frame.add(pnl1);
@@ -106,28 +109,56 @@ public class GUI {
         // logging label
         JLabel lbl3 = new JLabel("Logging:");
         frame.add(lbl3);
-        lbl3.setBounds(350, 0, 150, 50);     
+        lbl3.setBounds(350, 25, 150, 50);     
 
         // text log field
         JTextArea textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
         frame.add(scrollPane);
-        //textArea.addActionListener(new FileViewer());
+        //textArea.addActionListener();
         scrollPane.setBounds(350, 50, 320, 350);
 
-        // update button
-        JButton btn7 = new JButton("Update log");
+        // clear log button
+        JButton btn7 = new JButton("Clear log");
         frame.add(btn7);
         btn7.setEnabled(true);
         btn7.addActionListener(ev -> {
             try {
-                BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(".bin/suite.log")));
+                // backup and remove logfile
+                ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+                String[] cmd1 = {"mv", suiteLogFile, suiteLogFile+".org"};
+                String[] cmd2 = {"touch", suiteLogFile};
+                Process p1 = Runtime.getRuntime().exec(cmd1);
+                p1.waitFor();
+                Process p2 = Runtime.getRuntime().exec(cmd2);
+                p2.waitFor();
+                System.out.println(now + ": Cleared logfile.");
+                // clear pane
+                ZonedDateTime now2 = ZonedDateTime.now(ZoneId.systemDefault());
+                BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(suiteLogFile)));
                 textArea.read(input, "READING FILE");
+                System.out.println(now2 + ": Refreshed logfile pane.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }); 
         btn7.setBounds(520, 0, 150, 25);
+
+        // update button
+        JButton btn8 = new JButton("Update log");
+        frame.add(btn8);
+        btn8.setEnabled(true);
+        btn8.addActionListener(ev -> {
+            try {
+                ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+                BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(suiteLogFile)));
+                textArea.read(input, "READING FILE");
+                System.out.println(now + ": Requested logfile update.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }); 
+        btn8.setBounds(520, 25, 150, 25);
     
         frame.setLayout(null);    
 
@@ -165,6 +196,11 @@ public class GUI {
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBadd" };
                 Process p = Runtime.getRuntime().exec(cmd);
                 System.out.println(now + ": Add item to database.");
+                /*p.waitFor();
+                ZonedDateTime now2 = ZonedDateTime.now(ZoneId.systemDefault());
+                BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(suiteLogFile)));
+                textArea.read(input, "READING FILE");
+                System.out.println(now2 + ": Refreshed logfile pane.");*/
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -174,11 +210,16 @@ public class GUI {
     // create new class for button action LaunchDBmod
     static class LaunchDBmod implements ActionListener{
         public void actionPerformed (ActionEvent e){
-            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
             try {
+                ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
                 String[] cmd = { "python3", ".src/StoreBase.py", "DBmod" };
                 Process p = Runtime.getRuntime().exec(cmd);
                 System.out.println(now + ": Modify item in database.");
+                /*p.waitFor();
+                ZonedDateTime now2 = ZonedDateTime.now(ZoneId.systemDefault());
+                BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(suiteLogFile)));
+                textArea.read(input, "READING FILE");
+                System.out.println(now2 + ": Refreshed logfile pane.");*/
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
