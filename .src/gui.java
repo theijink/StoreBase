@@ -26,7 +26,7 @@ public class GUI {
         JFrame frame=new JFrame();  
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // close window handler
-        frame.setSize(720,480);                                 // set framesize
+        frame.setSize(750,480);                                 // set framesize
         //frame.setLayout(null); 
 
         //////////////// Layout ////////////////
@@ -44,79 +44,124 @@ public class GUI {
 
         // variables
         String suiteLogFile = new String(".bin/suite.log");
+        int yLocation = 0;
+        int xLocation = 0;
+        int colWidth  = 250;
+        int secondCol = 300;
+        
+        int btnHeight = 25;
+        int labHeight = 50;
+        int txtHeight = 0;
+
 
         // create panel
         JPanel pnl1 = new JPanel();
         frame.add(pnl1);
 
         // create stickers label
-        JLabel lbl1 = new JLabel("Database actions:");
-        frame.add(lbl1);
-        lbl1.setBounds(50, 0, 250, 50);
+        JLabel lab_database = new JLabel("Database actions:");
+        frame.add(lab_database);
+        lab_database.setBounds(xLocation, yLocation, colWidth, labHeight);
+        yLocation+=labHeight;
                
         // create button DBadd
-        JButton btn1 = new JButton("Add item to Database");
-        frame.add(btn1);                    // add button to frame
-        btn1.addActionListener(new LaunchDBadd());
-        btn1.setBounds(50, 50, 250,50);      // (x,y,w,h) w.r.t. top left
+        JButton btn_DBadd = new JButton("Add item to Database");
+        frame.add(btn_DBadd);                    // add button to frame
+        btn_DBadd.addActionListener(new LaunchDBadd());
+        btn_DBadd.setBounds(xLocation, yLocation, colWidth ,btnHeight);      // (x,y,w,h) w.r.t. top left
+        yLocation+=btnHeight;
         
         // create button DBmod
-        JButton btn2 = new JButton("Modify item in Database");
-        frame.add(btn2);
-        btn2.addActionListener(new LaunchDBmod());
-        btn2.setBounds(50, 100, 250,50);
+        JButton btn_DBmod = new JButton("Modify item in Database");
+        frame.add(btn_DBmod);
+        btn_DBmod.addActionListener(new LaunchDBmod());
+        btn_DBmod.setBounds(xLocation, yLocation, colWidth ,btnHeight);
+        yLocation+=btnHeight;
 
         // create button DBmap
-        JButton btn3 = new JButton("Add code-name mapping");
-        frame.add(btn3);
-        btn3.addActionListener(new LaunchDBmap());
-        btn3.setBounds(50, 150, 250,50);
+        JButton btn_DBmap = new JButton("Add code-name mapping");
+        frame.add(btn_DBmap);
+        btn_DBmap.addActionListener(new LaunchDBmap());
+        btn_DBmap.setBounds(xLocation, yLocation, colWidth ,btnHeight);
+        yLocation+=btnHeight;
 
+        // create button DBmap
+        JButton btn_DBanalysis = new JButton("Database Analysis");
+        frame.add(btn_DBanalysis);
+        btn_DBanalysis.setEnabled(false);
+        btn_DBanalysis.addActionListener(new LaunchDBanalysis());
+        btn_DBanalysis.setBounds(xLocation, yLocation, colWidth ,btnHeight);
+        yLocation+=btnHeight;
 
         // create stickers label
-        JLabel lbl2 = new JLabel("Stickers actions:");
-        frame.add(lbl2);
-        lbl2.setBounds(50, 200, 250, 50);
+        JLabel lab_stickers = new JLabel("Stickers actions:");
+        frame.add(lab_stickers);
+        lab_stickers.setBounds(xLocation, yLocation, colWidth, labHeight);
+        yLocation+=labHeight;
                
-        // create button DBadd
-        JButton btn4 = new JButton("CCV stickers from .csv file");
-        frame.add(btn4);                    // add button to frame
-        btn4.setEnabled(true);
-        btn4.addActionListener(new LaunchPostColumns());
-        btn4.setBounds(50, 250, 250,50);      // (x,y,w,h) w.r.t. top left
+        // create button CCV
+        JButton btn_CCV = new JButton("CCV stickers from .csv file");
+        frame.add(btn_CCV);                    // add button to frame
+        btn_CCV.setEnabled(true);
+        btn_CCV.addActionListener(new LaunchPostColumns());
+        btn_CCV.setBounds(xLocation, yLocation, colWidth ,btnHeight);      // (x,y,w,h) w.r.t. top left
+        yLocation+=btnHeight;
         
-        // create button DBmod
-        JButton btn5 = new JButton("BOL stickers from .xml file");
-        frame.add(btn5);
-        btn5.setEnabled(true);
-        btn5.addActionListener(new LaunchSelectOrders());
-        btn5.setBounds(50, 300, 250,50);
+        // create button BOL
+        JButton btn_BOL = new JButton("BOL stickers from .xml file");
+        frame.add(btn_BOL);
+        btn_BOL.setEnabled(true);
+        btn_BOL.addActionListener(new LaunchSelectOrders());
+        btn_BOL.setBounds(xLocation, yLocation, colWidth ,btnHeight);
+        yLocation+=btnHeight;
 
-        // create button DBmap
-        JButton btn6 = new JButton("PostNL stickers from .csv file");
-        frame.add(btn6);
-        btn6.setEnabled(false);
-        btn6.addActionListener(new LaunchDBmap());
-        btn6.setBounds(50, 350, 250,50);
+        // create button PostNL
+        JButton btn_PostNL = new JButton("PostNL stickers from .csv file");
+        frame.add(btn_PostNL);
+        btn_PostNL.setEnabled(false);
+        btn_PostNL.addActionListener(new LaunchDBmap());
+        btn_PostNL.setBounds(xLocation, yLocation, colWidth ,btnHeight);
+        yLocation+=btnHeight;
 
+        // create file conversion label
+        JLabel lab_conversion = new JLabel("File Conversion:");
+        frame.add(lab_conversion);
+        lab_conversion.setBounds(xLocation, yLocation, colWidth, labHeight);
+        yLocation+=labHeight;
+
+        // button MisterMinit file conversion
+        JButton btn_MM = new JButton("MisterMinit file conversion");
+        frame.add(btn_MM);
+        btn_MM.setEnabled(true);
+        btn_MM.addActionListener(new LaunchMMconversion());
+        btn_MM.setBounds(xLocation, yLocation, colWidth ,btnHeight);
+        yLocation+=btnHeight;        
 
         /*// create png image
         ImageIcon img1 = new ImageIcon(new ImageIcon(".bin/statsgraph.png").getImage().getScaledInstance(270, 270, Image.SCALE_DEFAULT));
-        JLabel lbl3 = new JLabel(img1);
-        frame.add(lbl3);
-        lbl3.setBounds(400, 500, 270, 270);*/
+        JLabel lab_img = new JLabel(img1);
+        frame.add(lab_img);
+        lab_img.setBounds(400, 500, 270, 270);*/
+
+        xLocation+=colWidth;                // second column
+        txtHeight=yLocation-2*btnHeight;    // determine the height of the text area at this point.
+        yLocation=0;                        // set yloc back to 0
 
         // logging label
-        JLabel lbl3 = new JLabel("Logging:");
-        frame.add(lbl3);
-        lbl3.setBounds(350, 25, 150, 50);     
+        JLabel lab_logging = new JLabel("Logging:");
+        frame.add(lab_logging);
+        lab_logging.setBounds(xLocation, yLocation, colWidth, labHeight);    
+        yLocation+=labHeight; 
 
         // text log field
         JTextArea textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
         frame.add(scrollPane);
         //textArea.addActionListener();
-        scrollPane.setBounds(350, 50, 320, 350);
+        scrollPane.setBounds(xLocation, yLocation, 2*colWidth, txtHeight);
+
+        xLocation+=colWidth;                // third column
+        yLocation=0;                        // set yloc back to 0
 
         // clear log button
         JButton btn7 = new JButton("Clear log");
@@ -142,7 +187,8 @@ public class GUI {
                 ex.printStackTrace();
             }
         }); 
-        btn7.setBounds(520, 0, 150, 25);
+        btn7.setBounds(xLocation, yLocation, colWidth, btnHeight);
+        yLocation+=btnHeight;
 
         // update button
         JButton btn8 = new JButton("Update log");
@@ -158,7 +204,8 @@ public class GUI {
                 ex.printStackTrace();
             }
         }); 
-        btn8.setBounds(520, 25, 150, 25);
+        btn8.setBounds(xLocation, yLocation, colWidth, btnHeight);
+        yLocation+=btnHeight;
     
         frame.setLayout(null);    
 
@@ -262,6 +309,34 @@ public class GUI {
                 String[] cmd = { "python3", ".src/PostColumns.py" };
                 Process p = Runtime.getRuntime().exec(cmd);
                 System.out.println(now + ": BOL stickers from .xml file.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    // create new class for button action LaunchMMconversion
+    static class LaunchMMconversion implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+            try {
+                String[] cmd = { "python3", ".src/MMconversion.py" };
+                Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": MisterMinit file conversion.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    // create new class for button action LaunchDBanalysis
+    static class LaunchDBanalysis implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+            try {
+                //String[] cmd = { "python3", ".src/MMconversion.py" };
+                //Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": Database Analysis.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
