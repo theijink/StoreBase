@@ -27,7 +27,7 @@ class Window(tk.Tk):
 
     def load_csv(self):
         try:
-            filename=defaultFilenameMisterMinit
+            filename='test/testdata/Export_redcsv.csv' #defaultFilenameMisterMinit
             file=open(filename, 'r')
             log_to_suitelogfile('warning', 'Default file {} not found. File dialog will be opened.'.format(filename), dt.now(tz.utc))
         except Exception as e:
@@ -68,15 +68,16 @@ class Window(tk.Tk):
     def set_widgets(self):
         i,j=1,0
         for item in self.data:
-            for ordernumber in item:
-                j=0
-                i+=1
-                tk.Label(text=ordernumber).grid(row=i,column=j)
+            colnames = [i for i in self.data[item].keys()]
+            j=0
+            for attr in self.data[item]:
+                tk.Label(text=attr).grid(row=i,column=j)
                 j+=1
-                columns = [k for k in self.data[item['Ordernummer']].keys()]
-                for attr in item['Ordernummer']:
-                    tk.Label(text=self.data[item['Ordernummer']][attr]).grid(row=i, column=j, sticky='nsew')
-                    j+=1
+                #columns = [k for k in self.data[item[ordernumber]].keys()]
+                #for attr in item[ordernumber]:
+                #    tk.Label(text=self.data[item[ordernumber]][attr]).grid(row=i, column=j, sticky='nsew')
+                #    j+=1
+        self.update()
 
 
 

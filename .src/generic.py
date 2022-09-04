@@ -18,7 +18,7 @@ def log_to_suitelogfile(level, message, time=''):
     file.close()
 
 def load_xls(filename=''):
-    filename=askopenfilename(filetypes=[("Excel Worksheets","*.xls")], initialdir='.') if filename='' else filename
+    filename=askopenfilename(filetypes=[("Excel Worksheets","*.xls")], initialdir='.') if filename=='' else filename
     df = pd.read_excel(filename, skiprows=[0,1])
     dt = df.to_dict()
     dl = [dict(zip(dt,t)) for t in zip(*dt.values())]
