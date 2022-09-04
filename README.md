@@ -11,6 +11,9 @@ A custom database management software program
 7. Use the "deactivate" command to get out of the venv.
 8. run the software by the command "./exec". A java application is built and started from which the different applications can be used. Also a parameters file is generated, which is used by the python code.
 
+## Known Issues and (Temporary) Workarounds:
+### .xls parser
+For convenience the code should be able to handle .xls files (Excel worksheets) alongside .csv files. For this the python library xlrd is used. Apparently the library can not deal with Excel sheets containing macro's. A patch for this is created as part of the exec file.
 
 ## Dependencies and Libraries:
 ### pip
@@ -37,6 +40,7 @@ python-dateutil 2.8.2
 setuptools      49.2.1
 six             1.16.0
 Werkzeug        2.0.2
+xlrd            2.0.1
 
 ### java
 import javax.swing.JButton;  
