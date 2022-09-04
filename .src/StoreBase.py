@@ -162,7 +162,7 @@ class mainwindow(tk.Tk):
             pass
         else:
             self.destroy()
-
+            
     def change_database_window(self, product):
         popup=tk.Toplevel()
         popup.title("Quantity")
