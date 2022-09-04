@@ -1,5 +1,58 @@
-#!/bin/sh
+#!/bin/bash
 source .venv/bin/activate
+
+## check for dependencies
+#which python
+#python --version
+#which bash
+#bash --version
+#which java
+#java --version
+#which ruby
+#ruby --version
+#which perl
+#perl --version
+#which sed
+
+
+
+
+## patch for xlrd 
+pyDir=$(which python)
+pyVer=$(python --version | cut -d'n' -f 2)
+pyMin=$(python --version | cut -d'.' -f 2)
+rootDir=$PWD;
+goalDir="xlrd"
+targetFile="formula.py"
+targetLine="    186: ('HACKED',           1,  1, 0x02,  1, 'V', 'V'),"
+lineAbove="    184: ('FACT',             1,  1, 0x02,  1, 'V', 'V'),"
+lineBelow="    189: ('DPRODUCT',         3,  3, 0x02,  3, 'V', 'RRR'),"
+cd .venv/lib/python3.$pyMin/site-packages
+if [ -d $goalDir ]; then
+    cd $goalDir;
+    if [ "$(while IFS= read -r line; do printf '%s\n' "$line"; done < $targetFile |grep "$targetLine")" = "$targetLine" ]; then
+        echo "Patch for opening .xls files already implemented in $PWD/$targetFile."
+    else
+        if [ -f $targetFile ]; then 
+            cp $targetFile $targetFile.org
+            while IFS= read -r line; do
+                #printf '%s\n' "$line"
+                #echo "$line\n$lineAbove" | grep "': ('"
+                if [ "$line" = "$lineAbove" ]; then
+                    echo "$line" | tee -a $targetFile.temp
+                    echo "$targetLine" | tee -a $targetFile.temp
+                else
+                    echo "$line" | tee -a $targetFile.temp
+                fi
+            done < $targetFile
+            mv $targetFile.temp $targetFile
+            echo "Patch for opening .xls implemented in $PWD/$targetFile."
+        else echo "Unable to patch fixes."
+        fi
+    fi
+fi
+cd $rootDir
+
 
 ## set parameters
 rm -rf parameters.py
