@@ -1,16 +1,9 @@
-#from generic import load_xls
+from generic import load_xls, log_to_suitelogfile
 from fileinput import filename
 import tkinter as tk
 from tkinter import filedialog as fd
 import csv
 import pandas as pd
-
-
-def load_xls(filename=''):
-    filename=fd.askopenfilename(filetypes=[("Excel Worksheets","*.xls")], initialdir='.') if filename=='' else filename
-    df = pd.read_excel(filename, skiprows=[0,1])
-    dt = df.to_dict('records')
-    return dt, filename
 
 data, filename = load_xls()
 fileout = filename[:-4]+'_out.csv'
@@ -47,5 +40,5 @@ writer.writeheader()
 for row in selectie:
     writer.writerow(row)
 file.close()
-
+log_to_suitelogfile('info', 'Used BOL_Picklijst.py to write pack list for {} orders: {}.'.format(len(selectie), filename), dt.now(tz.utc))
 
