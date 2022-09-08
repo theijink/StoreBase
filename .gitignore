@@ -6,7 +6,6 @@ test/
 parameters.py
 dump
 .DS_Store
-.src/BOL_Picklijst.py
 .src/Groothandel_sticker_Maker.py
 .src/MisterMinit_bestand.py
 .src/PostNL_Belgie_aanmaak.py
