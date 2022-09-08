@@ -106,7 +106,15 @@ public class GUI {
         btn_CCV.addActionListener(new LaunchPostColumns());
         btn_CCV.setBounds(xLocation, yLocation, colWidth ,btnHeight);      // (x,y,w,h) w.r.t. top left
         yLocation+=btnHeight;
-        
+
+        // create button BOL order list and labels
+        JButton btn_BOL_pick = new JButton("BOL order list and labels from .xls file");
+        frame.add(btn_BOL_pick);
+        btn_BOL_pick.setEnabled(true);
+        btn_BOL_pick.addActionListener(new LaunchOrderListLabels());
+        btn_BOL_pick.setBounds(xLocation, yLocation, colWidth ,btnHeight);
+        yLocation+=btnHeight;
+
         // create button BOL
         JButton btn_BOL = new JButton("BOL stickers from .xml file");
         frame.add(btn_BOL);
@@ -295,6 +303,20 @@ public class GUI {
                 String[] cmd = { "python3", ".src/PostColumns.py" };
                 Process p = Runtime.getRuntime().exec(cmd);
                 System.out.println(now + ": CCV stickers from .csv file.");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    // create new class for button action LaunchDBmap
+    static class LaunchOrderListLabels implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+            try {
+                String[] cmd = { "python3", ".src/BOL_Picklijst.py" };
+                Process p = Runtime.getRuntime().exec(cmd);
+                System.out.println(now + ": BOL oder list and labels from .xls file.");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
